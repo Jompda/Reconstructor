@@ -1,3 +1,4 @@
+const fs = require('fs'), { argv } = require('process');
 
 /**
  * Reconstructs the given string based on the configuration.
@@ -73,5 +74,13 @@ class Model {
 	}
 }
 
-const result = reconstruct(require('./config.json'), require('fs').readFileSync('srcfile.json').toString());
-console.log(result);
+if (argv[2] === undefined) return console.log('Usage: reconstructor <sourcefile> [configfile]');
+let config, srcfile;
+try {
+	config = JSON.parse(fs.readFileSync(argv[3]?argv[3]:'config.json').toString());
+	srcfile = fs.readFileSync(argv[2]).toString();
+	const result = reconstruct(config, srcfile);
+	console.log(result);
+} catch (err) {
+	console.error('Error:', err.message);
+}
