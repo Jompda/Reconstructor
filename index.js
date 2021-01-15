@@ -1,25 +1,41 @@
 
-const config = require('./config.json');
-const fs = require('fs');
-const src = fs.readFileSync('srcfile.json').toString();
+/**
+ * Reconstructs the given string based on the configuration.
+ * @param {Object[]} config 
+ * @param {String} str 
+ * @returns {String}
+ */
+function reconstruct(config, str) {
+	config.forEach((obj) => {
+		const model = new Model(obj);
+		while (str.match(model.regex)) {
+			const temp = model.compile(str);
+			str = str.replace(temp.regexResult[0], temp.formatted);
+		}
+	});
+	return str;
+}
 
-class RegexObj {
+class Model {
+	/**
+	 * @param {Object} obj 
+	 * @param {String} obj.regex 
+	 * @param {Model[]} obj.subRegexes 
+	 * @param {String=} obj.separator 
+	 * @param {String} obj.rawFormat 
+	 * @param {String=} obj.defaultValue 
+	 */
 	constructor(obj) {
-		/**@type {String}*/
 		this.regex = obj.regex;
-		/**@type {RegexObj[]}*/
 		this.subRegexes = obj.subRegexes;
-		/**@type {String}*/
 		this.separator = obj.separator;
-		/**@type {String}*/
 		this.rawFormat = obj.rawFormat;
-		/**@type {String}*/
 		this.defaultValue = obj.defaultValue;
 	}
 
 	/**
 	 * Recursive compilation.
-	 * @param {RegexObj} obj 
+	 * @param {Model} obj 
 	 * @param {String} str 
 	 * @returns {Object}
 	 */
@@ -32,11 +48,17 @@ class RegexObj {
 		/**@type {String[]}*/
 		const subCompilations = [];
 		if (this.subRegexes) this.subRegexes.forEach((subRegex) =>
-			subCompilations.push(new RegexObj(subRegex).compile(regexResult[1]).formatted));
-		return { formatted: this.format(regexResult, subCompilations), regexResult };
+			subCompilations.push(new Model(subRegex).compile(regexResult[1]).formatted));
+		return { formatted: this.construct(regexResult, subCompilations), regexResult };
 	}
 
-	format(regexResult, subCompilations) {
+	/**
+	 * Applies the compiled model to the raw format.
+	 * @param {RegExpExecArray} regexResult 
+	 * @param {String[]} subCompilations 
+	 * @returns {String}
+	 */
+	construct(regexResult, subCompilations) {
 		let result = this.rawFormat;
 		if (subCompilations) {
 			result = result.replace('%a', subCompilations.join(this.separator));
@@ -51,15 +73,5 @@ class RegexObj {
 	}
 }
 
-
-let result = src;
-//console.log(src);
-config.forEach((obj) => {
-	const regexObj = new RegexObj(obj);
-	while (result.match(regexObj.regex)) {
-		const temp = regexObj.compile(result);
-		result = result.replace(temp.regexResult[0], temp.formatted);
-	}
-});
+const result = reconstruct(require('./config.json'), require('fs').readFileSync('srcfile.json').toString());
 console.log(result);
-//console.log(JSON.parse(result));
