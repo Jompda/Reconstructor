@@ -66,10 +66,8 @@ class Model {
 			subCompilations.forEach((subCompilation, i) =>
 				result = result.replace('@'+(i+1), subCompilation));
 		}
-		for (let i = 1; i < regexResult.length; i++) {
-			const group = regexResult[i];
-			result = result.replace('%'+i, group)
-		}
+		for (let i = 1; i < regexResult.length; i++)
+			result = result.replace('%'+i, regexResult[i]);
 		return result;
 	}
 }
