@@ -1,13 +1,12 @@
 [
 	{
-		"name": "asset",
 		"regex": "{(.*?)}",
 		"separator": ", ",
 		"subRegexes": [
-			{ "regex": "\"path\":\\s(\".*?\")", "format": "%1", "defaultValue": "null" },
-			{ "regex": "\"filename\":\\s(\".*?\")", "format": "%1", "defaultValue": "null" },
-			{ "regex": "\"extension\":\\s(\".*?\")", "format": "%1", "defaultValue": "null" }
+			{ "regex": "\"path\":\\s(\".*?\")", "rawFormat": "%1", "defaultValue": "null" },
+			{ "regex": "\"filename\":\\s(\".*?\")", "rawFormat": "%1", "defaultValue": "null" },
+			{ "regex": "\"extension\":\\s(\".*?\")", "rawFormat": "%1", "defaultValue": "null" }
 		],
-		"format": "[ %a ]"
+		"rawFormat": "[ %a ]"
 	}
 ]
