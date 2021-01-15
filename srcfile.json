@@ -1,0 +1,10 @@
+{
+	"timestamp": "yesterdayxd",
+	"assets": [
+		{ "path": "assets/things/", "filename": "yeet", "extension": ".png" },
+		{ "path": "assets/maps/", "extension": ".png" },
+		{ "path": "assets/waaaaat/", "filename": "fug" },
+		{ "filename": "farssi", "extension": ".png" },
+		{}
+	]
+}

@@ -1,0 +1,11 @@
+{
+	"name": "reconstructor",
+	"version": "1.0.0",
+	"description": "A tool to rewrite text.",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"author": "Joni Rapo",
+	"license": "ISC"
+}

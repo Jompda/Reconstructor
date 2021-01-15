@@ -1,0 +1,13 @@
+[
+	{
+		"name": "asset",
+		"regex": "{(.*?)}",
+		"separator": ", ",
+		"subRegexes": [
+			{ "regex": "\"path\":\\s(\".*?\")", "format": "%1", "defaultValue": "null" },
+			{ "regex": "\"filename\":\\s(\".*?\")", "format": "%1", "defaultValue": "null" },
+			{ "regex": "\"extension\":\\s(\".*?\")", "format": "%1", "defaultValue": "null" }
+		],
+		"format": "[ %a ]"
+	}
+]
